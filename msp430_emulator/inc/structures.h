@@ -10,6 +10,7 @@
 typedef struct _Record_{
   Opcode_e opcode;
   Opcode_Type_e op_type;
+  ByteWord_e bw;
 
 }record_t;
 
@@ -17,8 +18,20 @@ typedef struct _Operand_{
 
 }operand_t;
 
-typedef struct _Status_Reg_{
-
+typedef union _Status_Reg_{
+  struct{
+    unsigned c: 1;
+    unsigned z: 1;
+    unsigned n: 1;
+    unsigned gie: 1;
+    unsigned coff: 1;
+    unsigned ooff: 1;
+    unsigned scg0: 1;
+    unsigned scg1: 1;
+    unsigned v: 1;
+    unsigned reserved: 7;
+  };
+  uint16_t w;
 }status_reg_t;
 
 typedef union _Data_{

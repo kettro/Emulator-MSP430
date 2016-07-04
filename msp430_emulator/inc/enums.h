@@ -89,4 +89,18 @@ typedef enum _Addr_Mode_{
   IMMEDIATE
 }AddrMode_e;
 
+typedef enum _Math_Shift_Logic_{
+  MATH_msl = 0,
+  SHIFT_msl = 1,
+  LOGIC_msl = 2,
+  UNDEFINED_msl = 3,
+}MathShiftLogic_e;
+
+typedef enum _Logic_Operations_{
+  UNDEFINED_lo = 0,
+  AND_lo,
+  OR_lo,
+  XOR_lo,
+}LogicOperation_e;
+
 #endif
