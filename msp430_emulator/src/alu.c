@@ -76,6 +76,17 @@ int alu(record_t record, status_reg_t* sr)
           F_l |= temp << counts; // put carry into the MSB
         }
         break; // on to updateSR
+      case SXT_op:
+        // check the sign bit of the src, and
+        if(BIT7(src.w)){ // is neg
+          F_l = (0xFF00 | src.w); // make high byte all 1's
+        }else{ // is pos
+          F_l = (0x00FF & src.w); // make high byte all 0's
+        }
+        break;
+      default:
+        //error: shouldn't be other insts here
+        break;
     }
   }else if(MathShiftLogic_lt[record.opcode] == MATH_msl){ // a math op
     // handle MATH
