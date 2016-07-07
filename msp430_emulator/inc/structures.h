@@ -7,16 +7,24 @@
 
 #include "enums.h"
 
+typedef struct _Src_Dst_{
+  uint16_t address;       // Effective Address
+  uint16_t value;         // The data of the source/destination
+  Register_e reg;         // register included with the Instruction
+  AddrMode_e addr_mode;   // Addressing Mode: see the enum for options
+}srcdst_t;
+
 typedef struct _Record_{
   Opcode_e opcode;
   Opcode_Type_e op_type;
   ByteWord_e bw;
-
+  uint8_t as;
+  uint8_t ad;
+  AOE_e aoe;
+  uint16_t instruction;
+  srcdst_t src;
+  srcdst_t dst;
 }record_t;
-
-typedef struct _Operand_{
-
-}operand_t;
 
 typedef union _Status_Reg_{
   struct{

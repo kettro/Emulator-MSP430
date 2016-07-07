@@ -29,6 +29,12 @@ typedef enum _Register_List_{
   R15 = 15
 } Register_e;
 
+typedef enum _Area_of_Execution_{
+  ID_aoe,
+  SP_aoe,
+  ALU_aoe
+}AOE_e;
+
 typedef enum _ReadWrite_{
   READ_rw = 0,
   WRITE_rw = 1
@@ -80,13 +86,14 @@ typedef enum _OpCodes_{
 }Opcode_e;
 
 typedef enum _Addr_Mode_{
-  REG_DIR,
-  INDEX,
+  REG_DIR = 0,
+  INDEXED,
   RELATIVE,
   ABSOLUTE,
   INDIRECT,
-  INDIR_AA,
-  IMMEDIATE
+  INDIRECT_AA,
+  IMMEDIATE,
+  IMM_CG
 }AddrMode_e;
 
 typedef enum _Math_Shift_Logic_{
@@ -102,5 +109,16 @@ typedef enum _Logic_Operations_{
   OR_lo,
   XOR_lo,
 }LogicOperation_e;
+
+typedef enum _MemRegCG_{
+  MEM_mrc,
+  REG_mrc,
+  CG_mrc
+}MemRegCG_e;
+
+typedef enum _SrcDst_{
+  SRC_sd,
+  DST_sd
+}SrcDst_e;
 
 #endif
