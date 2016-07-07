@@ -71,7 +71,7 @@ typedef enum _OpCodes_{
   SUBC_op = 7,
   SUB_op = 8,
   CMP_op = 9,
-  DADC_op = 10,
+  DADD_op = 10,
   BIT_op = 11,
   BIC_op = 12,
   BIS_op = 13,

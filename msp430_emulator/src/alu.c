@@ -85,7 +85,7 @@ int alu(record_t record, status_reg_t* sr)
       if(NegSub_lt[record.opcode]){ src.w = ~(src.w); } // subtraction
     }
 
-    if(record.opcode == DADC_op){ F_l = decimalAdd(src.w, dst.w); }
+    if(record.opcode == DADD_op){ F_l = decimalAdd(src.w, dst.w); }
     else{ F_l = (uint32_t)src.w + (uint32_t)dst.w; } // cast as 32b to allow for carry
     // on to updateSR
   }else if(MathShiftLogic_lt[record.opcode] == LOGIC_msl){ // a logic op
