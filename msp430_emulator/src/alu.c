@@ -102,7 +102,7 @@ int alu(record_t record, status_reg_t* sr)
     // on to updateSR
   }else if(MathShiftLogic_lt[record.opcode] == LOGIC_msl){ // a logic op
     // handle LOGIC
-    if(record.opcode = BIC_op){ src.w = ~(src.w); }
+    if(record.opcode == BIC_op){ src.w = ~(src.w); }
     switch(LogicOperation_lt[record.opcode]){
       case AND_lo: // BIT,BIC,AND
         F_l = src.w & dst.w;
@@ -112,6 +112,9 @@ int alu(record_t record, status_reg_t* sr)
         break;
       case XOR_lo: // XOR
         F_l = (src.w | dst.w) & ~(src.w & dst.w); // XOR = (A|B) & ~(A&B)
+        break;
+      default:
+        //error: all viable cases handled above;
         break;
     }
     // on to updateSR

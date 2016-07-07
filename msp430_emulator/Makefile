@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall
+CFLAGS=-Wall -Wno-unused-variable
 
 SDIR=./src
 TDIR=./test
