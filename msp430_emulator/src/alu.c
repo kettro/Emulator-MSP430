@@ -62,11 +62,12 @@ int alu(record_t record, status_reg_t* sr)
         F_l = (src.bh | src.bl<<8);
         break;
       case RRC_op:
-        temp = sr->c; // save the carry
+        temp = carry_val; // save the carry
       case RRA_op: // fall through: handled similarly
         if(record.bw == BYTE_bw){ counts = 8; }
         else{ counts = 16; }
-        sr->c = src.b0;
+        carry_val = src.b0;
+        if(sr != NULL){ sr->c = carry_val; }
         for(i = 1; i < counts; i++){
           bitmask = bitmask << 1; // mask for the next left bit
           F_l |= ((src.w & bitmask) >> 1); // right shift the specified bit
@@ -79,8 +80,8 @@ int alu(record_t record, status_reg_t* sr)
   }else if(MathShiftLogic_lt[record.opcode] == MATH_msl){ // a math op
     // handle MATH
     if(Carry_lt[record.opcode] == 1){ // this opcode useses a carry
-      if(NegSub_lt[record.opcode]){ src.w = ~(src.w) + sr->c; } // subtraction
-      else{ src.w += sr->c; } // addition
+      if(NegSub_lt[record.opcode]){ src.w = ~(src.w) + carry_val; } // subtraction
+      else{ src.w += carry_val; } // addition
     }else { // no carry
       if(NegSub_lt[record.opcode]){ src.w = ~(src.w); } // subtraction
     }
