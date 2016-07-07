@@ -16,6 +16,7 @@ void parseOpcode(record_t* record);
 void parseOperand(record_t* record);
 void calculateOffset(record_t* record, status_reg_t* sr);
 void calculateOperandAddress(record_t* record, SrcDst_e target);
+record_t decode(void);
 // External Variables
 extern uint16_t A_x;
 extern uint16_t B_x;
@@ -76,11 +77,17 @@ void parseOperand(record_t* record)
   uint16_t b3_0_mask = 0x0007; // bits 3->0
   uint16_t b11_8_mask = 0x0F00; // bits 11->8
   Data_t inst_d;
+  status_reg_t sr;
   inst_d.w = record->instruction;
+  // return if RETI
+  if((record->op_type == ONE_opt) && (record->opcode == RETI_op)){ return; }
   if(record->op_type == JUMP_opt){ // Jumps
     // src is the calculated offset, calculated by calculateOffset()
     // dst is the uncalculated offset
     record->dst.value = inst_d.w & jump_mask; // op = bits 9->0
+    reg(SR, READ_rw); // get the SR onto the MDB
+    sr.w = MDB_x;
+    calculateOffset(record, &sr); // offset needs to be translated
   }else{ // not jumps
     record->bw = inst_d.b6; // Bit6 = BW
     record->as = (inst_d.b5 << 1) | inst_d.b4;
@@ -210,4 +217,13 @@ void calculateOperandAddress(record_t* record, SrcDst_e target_type)
       break;
   }
   return;
+}
+
+record_t decode(void)
+{
+  record_t record;
+  record.instruction = MDB_x;
+  parseOpcode(&record);
+  parseOperand(&record);
+  return record;
 }

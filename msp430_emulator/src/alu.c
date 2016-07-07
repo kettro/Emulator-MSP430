@@ -1,6 +1,6 @@
 // Author : Ross Kettleson
 // File: alu.c
-// Purpose: Compute ALU actions: addition, logic, shifts. 
+// Purpose: Compute ALU actions: addition, logic, shifts.
 //          Update the SR after an execution
 // Include Files
 #include <stdint.h>
@@ -9,10 +9,6 @@
 #include "structures.h"
 #include "macros.h"
 #include "lookup_tables.h"
-  // Tables:
-  // MathShiftLogic_lt
-  // Carry_lt
-  // NegSub_lt
 // Defines and Macros
 // Local Variables
 uint32_t F_l;
