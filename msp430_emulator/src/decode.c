@@ -84,6 +84,7 @@ void parseOperand(record_t* record)
   if(record->op_type == JUMP_opt){ // Jumps
     // src is the calculated offset, calculated by calculateOffset()
     // dst is the uncalculated offset
+    record->dst.mr = REG_mr;
     record->dst.value = inst_d.w & jump_mask; // op = bits 9->0
     reg(SR, READ_rw); // get the SR onto the MDB
     sr.w = MDB_x;
@@ -144,7 +145,7 @@ void calculateOffset(record_t* record, status_reg_t* sr)
 void calculateOperandAddress(record_t* record, SrcDst_e target_type)
 {
   // variable declaration
-  int asd;
+  int asd; // either the as or the ad
   int cg_val;
   srcdst_t* target;
   record_t add_record = {
@@ -162,22 +163,26 @@ void calculateOperandAddress(record_t* record, SrcDst_e target_type)
   target->addr_mode = GetAddrMode_lt[asd][target->reg]; // get addr mode
   // Fix DST as an immediate
   if(target->addr_mode == IMM_CG){
-    if(target_type == DST_sd){
-      target->addr_mode = record->ad ? REG_DIR : INDEXED; // ad=0: reg_dir, ad=1: indexed
+    if(target_type == DST_sd){ // dst cannot be cg: underlying!
+      target->addr_mode = record->ad ? INDEXED : REG_DIR; // ad=0: reg_dir, ad=1: INDEXED
     }
   }
   // calculate:
   switch(target->addr_mode){
     case REG_DIR:
+      target->mr = REG_mr;
       reg(target->reg, READ_rw); // get the value of the register
       target->value = MDB_x; // get the value from the MDB
+      target->mr = REG_mr;
       break;
     case IMM_CG:
       // get value from the table
+      target->mr = REG_mr;
       target->value = ConstantGeneratorAsReg[record->as][target->reg];
       break;
     case INDIRECT:
     case INDIRECT_AA: 
+      target->mr = REG_mr;
       reg(target->reg, READ_rw);
       target->address = MDB_x; // Address from the MDB = the register
       if(target->addr_mode == INDIRECT_AA){
@@ -193,11 +198,13 @@ void calculateOperandAddress(record_t* record, SrcDst_e target_type)
       target->value = MDB_x; // get the value of that data from the MDB
       break;
     case IMMEDIATE:
+      target->mr = MEM_mr;
       fetch(); // get the next value
       target->value = MDB_x;
       break;
     default:
       // handle memory type
+      target->mr = MEM_mr;
       fetch(); // get the value of the next entry in the PC, put on MDB
       switch(target->addr_mode){ // switch in a switch
         case ABSOLUTE:

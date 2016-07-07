@@ -110,11 +110,10 @@ typedef enum _Logic_Operations_{
   XOR_lo,
 }LogicOperation_e;
 
-typedef enum _MemRegCG_{
-  MEM_mrc,
-  REG_mrc,
-  CG_mrc
-}MemRegCG_e;
+typedef enum _MemReg_{
+  MEM_mr,
+  REG_mr,
+}MemReg_e;
 
 typedef enum _SrcDst_{
   SRC_sd,

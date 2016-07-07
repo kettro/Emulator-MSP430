@@ -12,6 +12,7 @@ typedef struct _Src_Dst_{
   uint16_t value;         // The data of the source/destination
   Register_e reg;         // register included with the Instruction
   AddrMode_e addr_mode;   // Addressing Mode: see the enum for options
+  MemReg_e mr;
 }srcdst_t;
 
 typedef struct _Record_{
