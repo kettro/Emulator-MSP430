@@ -133,12 +133,12 @@ void updateSR(status_reg_t* sr, record_t record)
   int GIE = 0;
   // Carry?
   if(record.bw == BYTE_bw){ // is a byte
-    if(F_l == F_l & 0xFF){ Carry = 1; } 
+    if(F_l == (F_l & 0xFF)){ Carry = 1; } 
     sign_f = BIT7(F_l);
     sign_a = BIT7(A_x);
     sign_b = BIT7(B_x);
   }else{ // Word
-    if(F_l == F_l & 0xFFFF){ Carry = 1; }
+    if(F_l == (F_l & 0xFFFF)){ Carry = 1; }
     sign_f = BIT15(F_l);
     sign_a = BIT15(A_x);
     sign_b = BIT15(B_x);
@@ -149,7 +149,8 @@ void updateSR(status_reg_t* sr, record_t record)
   if(F_l == 0){ Zero = 1; }
   // Overflow? // this is the easiest way to calculate: -- => + and ++ => -
   // V = (!F & A AND B) | (F & !(A OR B));
-  Overflow = ((!sign_f & sign_a & sign_b) | (sign_f & !(sign_a | sign_b)));
+  // using !x in order to make a boolean of the value
+  Overflow = (((!sign_f) & sign_a & sign_b) | (sign_f & !(sign_a | sign_b)));
   // GIE?
   // Only Reti changes the GIE, outside interrupts
   GIE = ((record.opcode == RETI_op) && (record.op_type == ONE_opt));
