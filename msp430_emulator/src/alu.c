@@ -133,14 +133,14 @@ void updateSR(status_reg_t* sr, record_t record)
   // Carry?
   if(record.bw == BYTE_bw){ // is a byte
     if(F_l == F_l & 0xFF){ Carry = 1; } 
-    sign_f = BIT8(F_l);
-    sign_a = BIT8(A_x);
-    sign_b = BIT8(B_x);
+    sign_f = BIT7(F_l);
+    sign_a = BIT7(A_x);
+    sign_b = BIT7(B_x);
   }else{ // Word
     if(F_l == F_l & 0xFFFF){ Carry = 1; }
-    sign_f = BIT16(F_l);
-    sign_a = BIT16(A_x);
-    sign_b = BIT16(B_x);
+    sign_f = BIT15(F_l);
+    sign_a = BIT15(A_x);
+    sign_b = BIT15(B_x);
   }
   // Negative
   if(sign_f == 1) { Negative = 1; }

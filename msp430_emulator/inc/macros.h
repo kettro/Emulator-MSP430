@@ -6,8 +6,8 @@
 #define MACROS_H
 
 // To find the Sign bit of a Byte
-#define BIT8(word)            ( (word >> 7) & 0x0001 )
-#define BIT16(word)           ( ( word >> 15) & 0x0001 )
+#define BIT7(word)            ( (word >> 7) & 0x0001 )
+#define BIT15(word)           ( ( word >> 15) & 0x0001 )
 
 // To Mask a Byte or word
 #define BYTEMASK(word)        ( (word & 0xFF) )
