@@ -68,7 +68,7 @@ void fetch(void)
   // Increment the PC
   A_x = MDB_x;
   B_x = 0x0002; // from Constant Generator
-  record_t inc_rec = { .op_type = TWO_opt, .opcode = ADD_op}; // dummy record to provide add opcode
+  record_t inc_rec = { .op_type = TWO_opt, .opcode = ADD_op, .bw = WORD_bw}; // dummy record to provide add opcode
   alu(inc_rec, NULL); // Increment PC, but don't update the SR
   reg(PC, WRITE_rw); // write to the PC
   // Get the desired mem location
