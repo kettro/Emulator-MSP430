@@ -18,4 +18,7 @@
 #define LSBYTE(word)          ( ((word) & 0x00FF) )
 #define MSBYTE(word)          ( ((word) >> 8) & 0x00FF);
 
+#define RAMEND                0xFFFF
+#define RAMSTART              0x0000
+
 #endif
