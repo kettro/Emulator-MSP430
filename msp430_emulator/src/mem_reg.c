@@ -5,6 +5,7 @@
 // Include Files
 #include <stdint.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "enums.h"
 #include "structures.h"
 // Defines and Macros
@@ -45,7 +46,6 @@ void mem(ReadWrite_e rw, ByteWord_e bw)
       memory[address + 1] = data.bh;
     }
   }
-
 }
 
 void reg(Register_e reg_index, ReadWrite_e rw)

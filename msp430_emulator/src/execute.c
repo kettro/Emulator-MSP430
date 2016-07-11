@@ -124,6 +124,9 @@ void executeSP(record_t record)
         MDB_x = record.src.value; // value on the MDB
         mem(WRITE_rw, record.bw);
         break;
+      default:
+        //error: shouldn't have anything else
+        break;
     }// end switch
   } // end not reti
 }

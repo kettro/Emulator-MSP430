@@ -16,7 +16,7 @@ void parseOpcode(record_t* record);
 void parseOperand(record_t* record);
 void calculateOffset(record_t* record, status_reg_t* sr);
 void calculateOperandAddress(record_t* record, SrcDst_e target);
-record_t decode(void);
+record_t decode(void); // PUBLIC
 // External Variables
 extern uint16_t A_x;
 extern uint16_t B_x;
@@ -218,6 +218,9 @@ void calculateOperandAddress(record_t* record, SrcDst_e target_type)
           B_x = MDB_x;
           alu(add_record, NULL);
           break;
+        default:
+          // error: shouldn't be anything else
+          break;
       } // end switch in a switch
       mem(READ_rw, WORD_bw);
       target->value = MDB_x;
@@ -229,8 +232,15 @@ void calculateOperandAddress(record_t* record, SrcDst_e target_type)
 record_t decode(void)
 {
   record_t record;
-  record.instruction = MDB_x;
+  // fetch puts the value at mem[PC] on the MDB_x
+  // mem[PC] should be the instruction, so fill the record
+  record.instruction = MDB_x; 
+  // with the instruction, parse the opcode, type and aoe
   parseOpcode(&record);
+  // with everything else, parse the addr modes, 
+  // and the values of the operands
   parseOperand(&record);
+  // return the value of the record, so that execute has a 
+  // record to work with
   return record;
 }
