@@ -1,4 +1,4 @@
-;T1
+;T1 Verified
 org $1000
 LOOP add r6, r15
 jmp LOOP
