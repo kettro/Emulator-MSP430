@@ -24,6 +24,7 @@ extern uint16_t MDB_x;
 extern uint16_t MAB_x;
 extern uint16_t A_x;
 extern uint16_t B_x;
+extern int debug_flag;
 // External Function Prototypes
 extern int alu(record_t record, status_reg_t* sr); // if ret = 0: no value on MDB
 extern void mem(ReadWrite_e rw, ByteWord_e bw);
@@ -65,7 +66,7 @@ void executeALU(record_t record)
   if(alu(record, &sr)){ // if it returns a value, put it in the right place
     if(record.dst.mr == MEM_mr){
       MAB_x = record.dst.address;
-      mem(WRITE_rw, WORD_bw);
+      mem(WRITE_rw, record.bw);
     }else{
       reg(record.dst.reg, WRITE_rw);
     }

@@ -21,6 +21,7 @@ extern uint16_t A_x;
 extern uint16_t B_x;
 extern uint16_t MAB_x;
 extern uint16_t MDB_x;
+extern int debug_flag;
 // External Function Prototypes
 extern void reg(Register_e reg_index, ReadWrite_e rw);
 
@@ -44,7 +45,7 @@ int alu(record_t record, status_reg_t* sr)
   }else{
     carry_val = 0;
   }
-
+  if(debug_flag){ printf("ALU:opt = %x, opcode = %x\n", record.op_type, record.opcode); }
   if(record.bw == BYTE_bw){
     f_mask = 0x00FF;
     src.w &= f_mask;
@@ -86,6 +87,7 @@ int alu(record_t record, status_reg_t* sr)
     }
   }else if(MathShiftLogic_lt[record.opcode] == MATH_msl){ // a math op
     // handle MATH
+    if(debug_flag){ printf("A = %x, B = %x\n", A_x, B_x); }
     if(Carry_lt[record.opcode] == 1){ // this opcode useses a carry
       if(NegSub_lt[record.opcode]){ src.w = ~(src.w) + carry_val; } // subtraction
       else{ src.w += carry_val; } // addition
@@ -126,6 +128,7 @@ int alu(record_t record, status_reg_t* sr)
     return 0;
   }else{
     MDB_x = F_l & f_mask; // put F on the MDB as a byte or a word
+    if(debug_flag){ printf("ALU output = %x\n", MDB_x); }
     return 1;
   }
 

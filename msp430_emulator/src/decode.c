@@ -23,6 +23,7 @@ extern uint16_t A_x;
 extern uint16_t B_x;
 extern uint16_t MAB_x;
 extern uint16_t MDB_x;
+extern int debug_flag;
 // External Function Prototypes
 extern int alu(record_t record, status_reg_t* sr);
 extern void fetch(void);
@@ -51,6 +52,7 @@ void parseOpcode(record_t* record)
       record->opcode = (record->instruction & t2_op_mask) >> 12;
       break;
   }
+  if(debug_flag){ printf("\nDecode: I-Opt = %x, I-Opcode = %x\n", record->op_type, record->opcode); }
   if(record->op_type == ONE_opt){
     switch(record->opcode){
       case PUSH_op:
@@ -88,7 +90,9 @@ void parseOperand(record_t* record)
     record->dst.value = inst_d.w & jump_mask; // op = bits 9->0
     reg(SR, READ_rw); // get the SR onto the MDB
     sr.w = MDB_x;
+    if(debug_flag){ printf("operand value = %x = %d\n", record->dst.value, record->dst.value); }
     calculateOffset(record, &sr); // offset needs to be translated
+    if(debug_flag){ printf("offset = %x = %d\n", record->dst.value, record->dst.value); }
   }else{ // not jumps
     record->bw = inst_d.b6; // Bit6 = BW
     record->as = (inst_d.b5 << 1) | inst_d.b4;
@@ -254,5 +258,11 @@ record_t decode(void)
   parseOperand(&record);
   // return the value of the record, so that execute has a 
   // record to work with
+  if(debug_flag){
+    printf("\nFINAL ACTION:\n");
+    printf("Opcode = %x, Optype = %x\n", record.opcode, record.op_type);
+    printf("SRC = %x, Address= %x\n", record.src.value, record.src.address);
+    printf("DST = %x, Address = %x\n\n", record.dst.value, record.dst.address);
+  }
   return record;
 }

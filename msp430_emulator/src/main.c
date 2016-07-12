@@ -16,10 +16,13 @@ uint16_t B_x;
 uint16_t MDB_x;
 uint16_t MAB_x;
 
+int debug_flag = 0;
+int reg_dump = 0;
 // Local Function Prototypes
 void initialSetup(FILE* input_file);
 uint16_t FDEI(void);
 // External Variables
+extern uint16_t reg_file[16];
 // External Function Prototypes
 extern void fetch(void);
 extern record_t decode(void);
@@ -33,14 +36,45 @@ int main(int argc, char** argv)
 {
   // main
   FILE* file;
+  char* flagptr;
   if(argc < 2){
     printf("Input File Required\n");
     return 0;
   }
   int i;
   for(i = 0; i < argc; i++){
-    if(strchr(argv[i], '-')){
+    if((flagptr = strchr(argv[i], '-'))){
       // there is a flag, handle it, and handle the file, I guess
+      switch(*(++flagptr)){
+        case 'd':
+          printf("Debug Mode\n");
+          debug_flag = 1;
+          if(!(file = fopen(argv[i+1], "r"))){
+            printf("No file found follow the flag with the input\n");
+            return 0;
+          }
+          break;
+        case 'r':
+          printf("RegDump Mode\n");
+          reg_dump = 1;
+          if(!(file = fopen(argv[i+1], "r"))){
+            printf("No file found follow the flag with the input\n");
+            return 0;
+          }
+          break;
+      }
+      if(*(++flagptr) != '\0'){
+        switch(*flagptr){
+          case 'd':
+            printf("Debug Mode\n");
+            debug_flag = 1;
+            break;
+          case 'r':
+            printf("Regdump Mode\n");
+            reg_dump = 1;
+            break;
+        }
+      }
       break;
     }
   }
@@ -53,6 +87,18 @@ int main(int argc, char** argv)
   i = 0;
   FDEI();
   FDEI();
+  if(reg_dump){
+    printf("-----------------\n");
+    printf("| Register Dump\t|\n");
+    printf("-----------------\n");
+    printf("| Reg:\t| Val:\t|\n");
+    printf("-----------------\n");
+
+    for(i = 0; i < 16; i++){
+      printf("| %d\t| %04x\t|\n", i, reg_file[i]);
+    }
+    printf("-----------------\n");
+  }
   //while(FDEI() != 0xFFFF){ // while PC != RAMEND
   //  if(++i > 3) break; // short stop point
   //}

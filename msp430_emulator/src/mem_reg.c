@@ -22,6 +22,7 @@ extern uint16_t MDB_x;
 extern uint16_t MAB_x;
 extern uint16_t A_x;
 extern uint16_t B_x;
+extern int debug_flag;
 // External Function Prototypes
 extern int alu(record_t record, status_reg_t* sr);
 
@@ -66,6 +67,7 @@ void fetch(void)
   reg(PC, READ_rw); // put PC on the MDB
   MAB_x = MDB_x; // Put the PC on the MAB, not changed in the following:
   // Increment the PC
+  if(debug_flag){ printf("Fetching @ %x\n", MAB_x); }
   A_x = MDB_x;
   B_x = 0x0002; // from Constant Generator
   record_t inc_rec = { .op_type = TWO_opt, .opcode = ADD_op, .bw = WORD_bw}; // dummy record to provide add opcode
@@ -73,4 +75,5 @@ void fetch(void)
   reg(PC, WRITE_rw); // write to the PC
   // Get the desired mem location
   mem(READ_rw, WORD_bw); // read the previous value of the PC from memory
+  if(debug_flag){ printf("Fetched %x\n", MDB_x); }
 }
