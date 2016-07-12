@@ -48,7 +48,6 @@ uint16_t loader(FILE* input_file)
     if(!(str_len == stated_len)){
       // error
     }
-    printf("state len = %x, str_len = %x\n", stated_len, str_len);
     checksum += stated_len;
 
     // get the address
@@ -68,7 +67,7 @@ uint16_t loader(FILE* input_file)
     saved_ptr = ptr;
     int i;
     b[2] = '\0';
-    for(i = 0; i < stated_len - 2; i++){ // -8 to skip addr, len, S1, not chksum
+    for(i = 0; i < str_len - 2; i++){ // -8 to skip addr, len, S1, not chksum
       b[0] = *(++ptr);
       b[1] = *(++ptr);
       byte = strtol(b, NULL, 16);
@@ -80,13 +79,13 @@ uint16_t loader(FILE* input_file)
     }
     // actually get the values now
     ptr = saved_ptr; // recall the ptr
-    for(i = 0; i < stated_len - 3; i++){ // -10 to skip addr, len, S1, and checksum
+    for(i = 0; i < str_len - 3; i++){ // -10 to skip addr, len, S1, and checksum
       b[0] = *(++ptr);
       b[1] = *(++ptr);
       byte = strtol(b, NULL, 16);
       memory[address] = byte;
       address++;
-      printf("in address %x, entering value %02x\n", address - 1, byte);
+    //  printf("in address %x, entering value %02x\n", address - 1, byte);
     }
   }
   return start_address;

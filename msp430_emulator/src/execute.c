@@ -81,7 +81,7 @@ void executeID(record_t record)
   MDB_x = record.src.value;
   if(record.dst.mr == MEM_mr){
     MAB_x = record.dst.address;
-    mem(WRITE_rw, WORD_bw);
+    mem(WRITE_rw, record.bw);
   }else{
     reg(record.dst.reg, WRITE_rw);
   }

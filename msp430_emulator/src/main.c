@@ -51,9 +51,11 @@ int main(int argc, char** argv)
 
   initialSetup(file);
   i = 0;
-  while(FDEI() != 0xFFFF){ // while PC != RAMEND
-    if(++i > 3) break; // short stop point
-  }
+  FDEI();
+  FDEI();
+  //while(FDEI() != 0xFFFF){ // while PC != RAMEND
+  //  if(++i > 3) break; // short stop point
+  //}
   return 0;
 }
 

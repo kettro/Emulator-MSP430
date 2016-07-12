@@ -5,6 +5,7 @@
 // Include Files
 #include <stdint.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "structures.h"
 #include "lookup_tables.h"
 
@@ -36,8 +37,7 @@ void parseOpcode(record_t* record)
   uint16_t jump_op_mask = 0x1C00; // >> 10
   uint16_t t1_op_mask = 0x01C0; // >> 7
   uint16_t t2_op_mask = 0xF000; // >> 12
-
-  switch((record->instruction & type_mask) >> 12){
+  switch((record->instruction & type_mask) >> 13){
     case 0:
       record->op_type = ONE_opt;
       record->opcode = (record->instruction & t1_op_mask) >> 7;
@@ -83,7 +83,7 @@ void parseOperand(record_t* record)
   if((record->op_type == ONE_opt) && (record->opcode == RETI_op)){ return; }
   if(record->op_type == JUMP_opt){ // Jumps
     // src is the calculated offset, calculated by calculateOffset()
-    // dst is the uncalculated offset
+    // dst is the PC
     record->dst.mr = REG_mr;
     record->dst.value = inst_d.w & jump_mask; // op = bits 9->0
     reg(SR, READ_rw); // get the SR onto the MDB
@@ -94,14 +94,15 @@ void parseOperand(record_t* record)
     record->as = (inst_d.b5 << 1) | inst_d.b4;
     if(record->op_type == ONE_opt){
       record->src.reg = b3_0_mask & inst_d.w; // get bits 3->0
+      calculateOperandAddress(record, SRC_sd);
     }else{ // type 2
       record->src.reg = (b11_8_mask & inst_d.w) >> 8; // getting the reg
       record->ad = inst_d.b7;
       record->dst.reg = inst_d.w & b3_0_mask; // no right shift needed
+      calculateOperandAddress(record, SRC_sd); // need to calc src before dst
       calculateOperandAddress(record, DST_sd);
     }
     // both type 1 and type 2
-    calculateOperandAddress(record, SRC_sd);
     if(record->op_type == ONE_opt && record->aoe == ALU_aoe){
       // type one in the alu => need to double up the arguments
       record->dst = record->src;
@@ -112,6 +113,7 @@ void parseOperand(record_t* record)
 
 void calculateOffset(record_t* record, status_reg_t* sr)
 {
+  uint16_t offset;
   if(sr == NULL){ return; }
   // dynamic lookup_table to check conditions
   int sr_condition_table[8] = {
@@ -124,12 +126,20 @@ void calculateOffset(record_t* record, status_reg_t* sr)
     ((sr->n ^ sr->v) == 1),
     (1)
   };
-  record_t add_rec = { .op_type = TWO_opt, .opcode = ADD_op, .bw = WORD_bw}; // dummy record for adding
+  record_t add_rec = { 
+    .op_type = TWO_opt, 
+    .opcode = ADD_op, 
+    .bw = WORD_bw
+  }; // dummy record for adding
   if(sr_condition_table[record->opcode]){
     A_x = record->dst.value;
     B_x = record->dst.value; // multiplying the dst by 2
     alu(add_rec, NULL); // TODO: maybe increase sysclock?
-    record->src.value = MDB_x; // the offset is now double the passed value
+    offset = MDB_x;
+    if(offset & 0x0200){ // a negative number = has 10th bit set
+      offset |= 0xFE00; // sign extending the offset
+    } // else, do nothing
+    record->src.value = offset; // the offset is now double the passed value
   }else{
     record->src.value = 0x00; // if the condition isn't met, PC = PC + 0
   }
@@ -217,12 +227,14 @@ void calculateOperandAddress(record_t* record, SrcDst_e target_type)
           reg(target->reg, READ_rw);
           B_x = MDB_x;
           alu(add_record, NULL);
+          MAB_x = MDB_x; // put the calculated address on the MAB
           break;
         default:
           // error: shouldn't be anything else
           break;
       } // end switch in a switch
-      mem(READ_rw, WORD_bw);
+      target->address = MDB_x; // store address - calculated or directly read
+      mem(READ_rw, record->bw);
       target->value = MDB_x;
       break;
   }

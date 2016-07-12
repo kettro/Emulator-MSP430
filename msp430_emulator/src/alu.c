@@ -118,6 +118,7 @@ int alu(record_t record, status_reg_t* sr)
     printf("Error in ALU:\n");
     printf("Opcode %04x, Type %d\n", record.opcode, record.op_type);
     printf("SRC = %04x, DST = %04x\n", src.w, dst.w);
+    printf("Undefined Behavior\n");
     // error: undefined behavior
   }
   updateSR(sr, record);
