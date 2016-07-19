@@ -92,7 +92,7 @@ int alu(record_t record, status_reg_t* sr)
       if(NegSub_lt[record.opcode]){ src.w = ~(src.w) + carry_val; } // subtraction
       else{ src.w += carry_val; } // addition
     }else { // no carry
-      if(NegSub_lt[record.opcode]){ src.w = ~(src.w); } // subtraction
+      if(NegSub_lt[record.opcode]){ src.w = ~(src.w) + 1; } // subtraction
     }
 
     if(record.opcode == DADD_op){ F_l = decimalAdd(src.w, dst.w); }
@@ -152,7 +152,7 @@ void updateSR(status_reg_t* sr, record_t record)
     sign_a = BIT7(A_x);
     sign_b = BIT7(B_x);
   }else{ // Word
-    if(F_l == (F_l & 0xFFFF)){ Carry = 1; }
+    if(F_l != (F_l & 0xFFFF)){ Carry = 1; }
     sign_f = BIT15(F_l);
     sign_a = BIT15(A_x);
     sign_b = BIT15(B_x);
@@ -181,7 +181,10 @@ void updateSR(status_reg_t* sr, record_t record)
   // put sr on the MDB
   MDB_x = sr->w;
   reg(SR, WRITE_rw);
-  // TODO: increment the SYSclock
+  if(debug_flag){
+    printf("SR=%x\n", sr->w);
+    printf("C=%d\tZ=%d\nN=%d\tV=%d\n", sr->c, sr->z, sr->n, sr->v);
+  }
   return;
 }
 

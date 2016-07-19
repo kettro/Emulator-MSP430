@@ -90,6 +90,11 @@ void executeID(record_t record)
 
 void executeSP(record_t record)
 {
+  record_t add_rec = {
+    .op_type = TWO_opt,
+    .opcode = ADD_op,
+    .bw = WORD_bw
+  };
   record_t sub_rec = {
     .op_type = TWO_opt,
     .opcode = SUB_op,
@@ -104,7 +109,7 @@ void executeSP(record_t record)
     reg(SP, READ_rw); // get the stack pointer on the MDB
     A_x = 2;
     B_x = MDB_x;
-    alu(sub_rec, NULL); // SP-2 -> MDB
+    alu(add_rec, NULL); // SP+2 -> MDB
     MAB_x = MDB_x;
     mem(READ_rw, WORD_bw);
     reg(PC, WRITE_rw); // write mem[SP] to the PC
@@ -118,7 +123,7 @@ void executeSP(record_t record)
       case CALL_op:
         reg(PC, READ_rw); // puts PC on the MDB
         mem(WRITE_rw, WORD_bw); // SP-2 on MAB, PC on MDB
-        MDB_x = record.dst.value;
+        MDB_x = record.src.value;
         reg(PC, WRITE_rw); // write the destination to the PC, to call the fn
         break;
       case PUSH_op:

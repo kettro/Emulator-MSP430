@@ -80,11 +80,16 @@ int main(int argc, char** argv)
   }
   if(i == argc){
     // no flags
-    file = fopen(argv[1], "r");
+    if(!(file = fopen(argv[1], "r"))){
+      printf("File Not Found. Entered File: %s\n", argv[1]);
+      return 0;
+    }
   }
 
   initialSetup(file);
   i = 0;
+  FDEI();
+  FDEI();
   FDEI();
   FDEI();
   if(reg_dump){
@@ -120,7 +125,7 @@ void initialSetup(FILE* input_file)
   MDB_x = 0x0000;
   reg(SR, WRITE_rw);
   // set the SP to RAMEND = 0xFFFF, as default
-  MDB_x = 0xFFFF;
+  MDB_x = 0xFFBF;
   reg(SP, WRITE_rw);
 }
 

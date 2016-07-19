@@ -41,8 +41,8 @@ typedef enum _ReadWrite_{
 }ReadWrite_e;
 
 typedef enum _ByteWord_{
-  BYTE_bw = 0,
-  WORD_bw = 1
+  WORD_bw = 0,
+  BYTE_bw = 1
 }ByteWord_e;
 
 typedef enum _Opcode_Type_{

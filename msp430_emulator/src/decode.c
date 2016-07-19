@@ -10,7 +10,6 @@
 #include "lookup_tables.h"
 
 // Defines and Macros
-#define INDIR_AA_INCREMENT    1
 // Local Variables
 // Local Function Prototypes
 void parseOpcode(record_t* record);
@@ -152,7 +151,7 @@ void calculateOffset(record_t* record, status_reg_t* sr)
   record->opcode = ADD_op;
   record->op_type = TWO_opt;
   record->bw = WORD_bw;
-  // TODO: increase SYCLOCK? 
+  record->dst.mr = REG_mr;
   return;
 }
 
@@ -202,7 +201,7 @@ void calculateOperandAddress(record_t* record, SrcDst_e target_type)
       if(target->addr_mode == INDIRECT_AA){
         reg(target->reg, READ_rw);
         A_x = MDB_x;
-        B_x = INDIR_AA_INCREMENT; // constant generated
+        B_x = 2 - record->bw; // for WORD( = 0), add 2, for BYTE( = 1) add 1
         alu(add_record, NULL); // increment the register by 1
         reg(target->reg, WRITE_rw); // store the result in the register
         break;
