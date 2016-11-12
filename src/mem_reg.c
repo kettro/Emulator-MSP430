@@ -33,6 +33,7 @@ void mem(ReadWrite_e rw, ByteWord_e bw)
   Data_t data;
   data.w = MDB_x;
   uint16_t address = MAB_x;
+
   if(rw == READ_rw){ // read mode
     data.bl = memory[address];
     if(bw == BYTE_bw){ // is a byte

@@ -45,7 +45,7 @@ int alu(record_t record, status_reg_t* sr)
   }else{
     carry_val = 0;
   }
-  if(debug_flag){ printf("ALU:opt = %x, opcode = %x\n", record.op_type, record.opcode); }
+//  if(debug_flag){ printf("ALU:opt = %x, opcode = %x\n", record.op_type, record.opcode); }
   if(record.bw == BYTE_bw){
     f_mask = 0x00FF;
     src.w &= f_mask;
@@ -82,12 +82,15 @@ int alu(record_t record, status_reg_t* sr)
         }
         break;
       default:
+        printf("Error in ALU\n");
+        printf("Inst = %X\n", record.instruction);
+        printf("Opcode = %X, Type = %X\n", record.opcode, record.op_type);
         //error: shouldn't be other insts here
         break;
     }
   }else if(MathShiftLogic_lt[record.opcode] == MATH_msl){ // a math op
     // handle MATH
-    if(debug_flag){ printf("A = %x, B = %x\n", A_x, B_x); }
+    //if(debug_flag){ printf("A = %x, B = %x\n", A_x, B_x); }
     if(Carry_lt[record.opcode] == 1){ // this opcode useses a carry
       if(NegSub_lt[record.opcode]){ src.w = ~(src.w) + carry_val; } // subtraction
       else{ src.w += carry_val; } // addition
@@ -113,6 +116,8 @@ int alu(record_t record, status_reg_t* sr)
         break;
       default:
         //error: all viable cases handled above;
+        printf("Error in ALU:");
+        printf("Error In Logic analysis: Bad opcode?");
         break;
     }
     // on to updateSR
@@ -123,12 +128,13 @@ int alu(record_t record, status_reg_t* sr)
     printf("Undefined Behavior\n");
     // error: undefined behavior
   }
+  A_x = src.w;
+  B_x = dst.w;
   updateSR(sr, record);
   if(record.op_type == TWO_opt && (record.opcode == CMP_op || record.opcode == BIT_op)){
     return 0;
   }else{
     MDB_x = F_l & f_mask; // put F on the MDB as a byte or a word
-    if(debug_flag){ printf("ALU output = %x\n", MDB_x); }
     return 1;
   }
 
@@ -147,7 +153,7 @@ void updateSR(status_reg_t* sr, record_t record)
   int GIE = 0;
   // Carry?
   if(record.bw == BYTE_bw){ // is a byte
-    if(F_l == (F_l & 0xFF)){ Carry = 1; } 
+    if(F_l != (F_l & 0xFF)){ Carry = 1; } 
     sign_f = BIT7(F_l);
     sign_a = BIT7(A_x);
     sign_b = BIT7(B_x);
@@ -181,10 +187,7 @@ void updateSR(status_reg_t* sr, record_t record)
   // put sr on the MDB
   MDB_x = sr->w;
   reg(SR, WRITE_rw);
-  if(debug_flag){
-    printf("SR=%x\n", sr->w);
-    printf("C=%d\tZ=%d\nN=%d\tV=%d\n", sr->c, sr->z, sr->n, sr->v);
-  }
+  if(debug_flag){ printf("sr = %x; C=%d, V=%d, N=%d\n", sr->w, sr->c, sr->v, sr->n); }
   return;
 }
 

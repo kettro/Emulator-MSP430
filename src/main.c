@@ -37,6 +37,7 @@ int main(int argc, char** argv)
   // main
   FILE* file;
   char* flagptr;
+
   if(argc < 2){
     printf("Input File Required\n");
     return 0;
@@ -88,10 +89,17 @@ int main(int argc, char** argv)
 
   initialSetup(file);
   i = 0;
-  FDEI();
-  FDEI();
-  FDEI();
-  FDEI();
+  int fdei_ret;
+  for(i = 0; i < 25; i++){
+    if(debug_flag){ printf("\n"); }
+    fdei_ret = FDEI();
+    if(fdei_ret == 0){
+      break;
+    }
+  }
+  //while(FDEI() != 0){
+  //  if(debuf_flag){ printf("\n"); }
+  //}
   if(reg_dump){
     printf("-----------------\n");
     printf("| Register Dump\t|\n");
@@ -124,7 +132,7 @@ void initialSetup(FILE* input_file)
   // clear the SR
   MDB_x = 0x0000;
   reg(SR, WRITE_rw);
-  // set the SP to RAMEND = 0xFFFF, as default
+  // set the SP to RAMEND = 0xFFBF, as default
   MDB_x = 0xFFBF;
   reg(SP, WRITE_rw);
 }
@@ -135,13 +143,15 @@ uint16_t FDEI(void)
   uint16_t pc;
   fetch();
   pc = MAB_x; // the address fetched
-  if(pc == 0xFFFF){ 
-    return pc; }
   // the new value is on the MDB, and PC+=2
   // process the new instruction, and determine the operands, etc
   // Returns a fully featured record
   record_t record;
   record = decode();
+  if(record.instruction == 0){
+    printf("All Done!\n");
+    return 0;
+  }
   // Now that we have the id of the inst, its operand(s), and its
   // area of execution: can actually execute that code. 
   // Jumps are now just addition, and everything is either handled

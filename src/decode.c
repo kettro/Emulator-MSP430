@@ -51,7 +51,7 @@ void parseOpcode(record_t* record)
       record->opcode = (record->instruction & t2_op_mask) >> 12;
       break;
   }
-  if(debug_flag){ printf("\nDecode: I-Opt = %x, I-Opcode = %x\n", record->op_type, record->opcode); }
+  //if(debug_flag){ printf("\nDecode: I-Opt = %x, I-Opcode = %x\n", record->op_type, record->opcode); }
   if(record->op_type == ONE_opt){
     switch(record->opcode){
       case PUSH_op:
@@ -74,8 +74,8 @@ void parseOpcode(record_t* record)
 
 void parseOperand(record_t* record)
 {
-  uint16_t jump_mask = 0x01FF; // bits 9->0
-  uint16_t b3_0_mask = 0x0007; // bits 3->0
+  uint16_t jump_mask = 0x03FF; // bits 9->0
+  uint16_t b3_0_mask = 0x000F; // bits 3->0
   uint16_t b11_8_mask = 0x0F00; // bits 11->8
   Data_t inst_d;
   status_reg_t sr;
@@ -86,12 +86,13 @@ void parseOperand(record_t* record)
     // src is the calculated offset, calculated by calculateOffset()
     // dst is the PC
     record->dst.mr = REG_mr;
-    record->dst.value = inst_d.w & jump_mask; // op = bits 9->0
+    printf("instr = %x\n", inst_d.w );
+   record->dst.value = inst_d.w & jump_mask; // op = bits 9->0
     reg(SR, READ_rw); // get the SR onto the MDB
     sr.w = MDB_x;
-    if(debug_flag){ printf("operand value = %x = %d\n", record->dst.value, record->dst.value); }
+    if(debug_flag){ printf("operand value = %x\n", record->dst.value); }
     calculateOffset(record, &sr); // offset needs to be translated
-    if(debug_flag){ printf("offset = %x = %d\n", record->dst.value, record->dst.value); }
+    if(debug_flag){ printf("offset = %x = %+d\n", record->src.value, (signed short)record->src.value); }
   }else{ // not jumps
     record->bw = inst_d.b6; // Bit6 = BW
     record->as = (inst_d.b5 << 1) | inst_d.b4;
@@ -121,9 +122,9 @@ void calculateOffset(record_t* record, status_reg_t* sr)
   // dynamic lookup_table to check conditions
   int sr_condition_table[8] = {
     (sr->z == 0),
-    (sr->z =! 0),
+    (sr->z != 0),
     (sr->c == 0),
-    (sr->c =! 0),
+    (sr->c != 0),
     (sr->n == 1),
     ((sr->n ^ sr->v) == 0),
     ((sr->n ^ sr->v) == 1),
@@ -134,6 +135,7 @@ void calculateOffset(record_t* record, status_reg_t* sr)
     .opcode = ADD_op, 
     .bw = WORD_bw
   }; // dummy record for adding
+  printf("Jump Taken? %x\n", sr_condition_table[record->opcode]);
   if(sr_condition_table[record->opcode]){
     A_x = record->dst.value;
     B_x = record->dst.value; // multiplying the dst by 2
@@ -258,10 +260,20 @@ record_t decode(void)
   // return the value of the record, so that execute has a 
   // record to work with
   if(debug_flag){
-    printf("\nFINAL ACTION:\n");
+    printf("FINAL ACTION:\n");
     printf("Opcode = %x, Optype = %x\n", record.opcode, record.op_type);
-    printf("SRC = %x, Address= %x\n", record.src.value, record.src.address);
-    printf("DST = %x, Address = %x\n\n", record.dst.value, record.dst.address);
+    printf("SRC = %x", record.src.value);
+    if(record.src.mr == REG_mr){
+      printf(" Register = %d\n", record.src.reg);
+    }else{ 
+      printf(" Address = %x\n", record.src.address);
+    }
+    printf("DST = %x", record.dst.value);
+    if(record.dst.mr == REG_mr){
+      printf(" Register = %d\n", record.dst.reg);
+    }else{ 
+      printf(" Address = %x\n", record.dst.address);
+    }
   }
   return record;
 }
