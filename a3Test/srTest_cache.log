@@ -1,0 +1,246 @@
+Debug Mode
+c
+Cache dump Mode
+Fetching @ 100
+Querying Memory @100: Miss
+Fetched 4032
+Fetching @ 102
+Querying Memory @102: Miss
+Fetched 0
+FINAL ACTION:
+Opcode = 4, Optype = 2
+SRC = 0 Address = 0
+DST = 0 Register = 2
+
+Fetching @ 104
+Querying Memory @104: Miss
+Fetched 4030
+Fetching @ 106
+Querying Memory @106: Miss
+Fetched 1000
+FINAL ACTION:
+Opcode = 4, Optype = 2
+SRC = 1000 Address = 0
+DST = 108 Register = 0
+
+Fetching @ 1000
+Querying Memory @1000: Miss
+Fetched 4032
+Fetching @ 1002
+Querying Memory @1002: Miss
+Fetched 1
+FINAL ACTION:
+Opcode = 4, Optype = 2
+SRC = 1 Address = 0
+DST = 0 Register = 2
+
+Fetching @ 1004
+Querying Memory @1004: Miss
+Fetched 2bfe
+Jump Taken? 0
+offset = 0 = +0
+FINAL ACTION:
+Opcode = 5, Optype = 2
+SRC = 0 Address = 0
+DST = 1006 Register = 0
+sr = 0; C=0, V=0, N=0
+
+Fetching @ 1006
+Querying Memory @1006: Miss
+Fetched 4030
+Fetching @ 1008
+Querying Memory @1008: Miss
+Fetched 1100
+FINAL ACTION:
+Opcode = 4, Optype = 2
+SRC = 1100 Address = 0
+DST = 100a Register = 0
+
+Fetching @ 1100
+Querying Memory @1100: Miss
+Fetched 4032
+Fetching @ 1102
+Querying Memory @1102: Miss
+Fetched 2
+FINAL ACTION:
+Opcode = 4, Optype = 2
+SRC = 2 Address = 0
+DST = 0 Register = 2
+
+Fetching @ 1104
+Querying Memory @1104: Miss
+Fetched 22f8
+Jump Taken? 0
+offset = 0 = +0
+FINAL ACTION:
+Opcode = 5, Optype = 2
+SRC = 0 Address = 0
+DST = 1106 Register = 0
+sr = 0; C=0, V=0, N=0
+
+Fetching @ 1106
+Querying Memory @1106: Miss
+Fetched 4030
+Fetching @ 1108
+Querying Memory @1108: Miss
+Fetched 1200
+FINAL ACTION:
+Opcode = 4, Optype = 2
+SRC = 1200 Address = 0
+DST = 110a Register = 0
+
+Fetching @ 1200
+Querying Memory @1200: Miss
+Fetched 4032
+Fetching @ 1202
+Querying Memory @1202: Miss
+Fetched 0
+FINAL ACTION:
+Opcode = 4, Optype = 2
+SRC = 0 Address = 0
+DST = 0 Register = 2
+
+Fetching @ 1204
+Querying Memory @1204: Miss
+Fetched 31f8
+Jump Taken? 0
+offset = 0 = +0
+FINAL ACTION:
+Opcode = 5, Optype = 2
+SRC = 0 Address = 0
+DST = 1206 Register = 0
+sr = 0; C=0, V=0, N=0
+
+Fetching @ 1206
+Querying Memory @1206: Miss
+Fetched 4030
+Fetching @ 1208
+Querying Memory @1208: Miss
+Fetched 1300
+FINAL ACTION:
+Opcode = 4, Optype = 2
+SRC = 1300 Address = 0
+DST = 120a Register = 0
+
+Fetching @ 1300
+Querying Memory @1300: Miss
+Fetched 4032
+Fetching @ 1302
+Querying Memory @1302: Miss
+Fetched 104
+FINAL ACTION:
+Opcode = 4, Optype = 2
+SRC = 104 Address = 0
+DST = 0 Register = 2
+
+Fetching @ 1304
+Querying Memory @1304: Miss
+Fetched 38f8
+Jump Taken? 0
+offset = 0 = +0
+FINAL ACTION:
+Opcode = 5, Optype = 2
+SRC = 0 Address = 0
+DST = 1306 Register = 0
+sr = 0; C=0, V=0, N=0
+
+Fetching @ 1306
+Querying Memory @1306: Miss
+Fetched 4030
+Fetching @ 1308
+Querying Memory @1308: Miss
+Fetched 1400
+FINAL ACTION:
+Opcode = 4, Optype = 2
+SRC = 1400 Address = 0
+DST = 130a Register = 0
+
+Fetching @ 1400
+Querying Memory @1400: Miss
+Fetched 4032
+Fetching @ 1402
+Querying Memory @1402: Miss
+Fetched 4
+FINAL ACTION:
+Opcode = 4, Optype = 2
+SRC = 4 Address = 0
+DST = 0 Register = 2
+
+Fetching @ 1404
+Querying Memory @1404: Miss
+Fetched 37f8
+Jump Taken? 0
+offset = 0 = +0
+FINAL ACTION:
+Opcode = 5, Optype = 2
+SRC = 0 Address = 0
+DST = 1406 Register = 0
+sr = 0; C=0, V=0, N=0
+
+Fetching @ 1406
+Querying Memory @1406: Miss
+Fetched 4030
+Fetching @ 1408
+Querying Memory @1408: Miss
+Fetched 1500
+FINAL ACTION:
+Opcode = 4, Optype = 2
+SRC = 1500 Address = 0
+DST = 140a Register = 0
+
+Fetching @ 1500
+Querying Memory @1500: Miss
+Fetched 4032
+Fetching @ 1502
+Querying Memory @1502: Miss
+Fetched 100
+FINAL ACTION:
+Opcode = 4, Optype = 2
+SRC = 100 Address = 0
+DST = 0 Register = 2
+
+Fetching @ 1504
+Querying Memory @1504: Miss
+Fetched 36f8
+Jump Taken? 0
+offset = 0 = +0
+FINAL ACTION:
+Opcode = 5, Optype = 2
+SRC = 0 Address = 0
+DST = 1506 Register = 0
+sr = 0; C=0, V=0, N=0
+
+Fetching @ 1506
+Querying Memory @1506: Miss
+Fetched 0
+FINAL ACTION:
+Opcode = 0, Optype = 0
+SRC = 1508 Register = 0
+DST = 1508 Register = 0
+All Done!
+-------------------------
+| 	Cache Dump	|
+-------------------------
+| Addr:	| Val:	| LRU:	|
+-------------------------
+| 1308	| 1400	| 3	|
+| 1400	| 4032	| 2	|
+| 1408	| 1500	| 1	|
+| 1500	| 4032	| 0	|
+-------------------------
+| 1302	| 0104	| 2	|
+| 1402	| 0004	| 1	|
+| 1502	| 0100	| 0	|
+| 1202	| 0000	| 3	|
+-------------------------
+| 1304	| 38F8	| 2	|
+| 1404	| 37F8	| 1	|
+| 1504	| 36F8	| 0	|
+| 1204	| 31F8	| 3	|
+-------------------------
+| 1306	| 4030	| 2	|
+| 1406	| 4030	| 1	|
+| 1506	| 0000	| 0	|
+| 1206	| 4030	| 3	|
+-------------------------
+-------------------------

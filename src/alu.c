@@ -26,7 +26,13 @@ extern int debug_flag;
 extern void reg(Register_e reg_index, ReadWrite_e rw);
 
 // Definitions
-
+/* Function: alu
+ * Description: The computation centre: determines the type of operation (math, shift, logic),
+ *              determines the features of the current instruction, and executes the operation
+ * Parameters: the current record, a pointer to the SR
+ * Return: a flag whether the instruction has sent a value to the MDB
+ * Note: The SR pointer is used so to allow some executions to not alter the SR, as needed
+ */
 int alu(record_t record, status_reg_t* sr)
 {
   int carry_val;
@@ -139,7 +145,11 @@ int alu(record_t record, status_reg_t* sr)
   }
 
 }
-
+/* Function: updateSR
+ * Description: Updates the Status Register, based on the A, B and F alu out/inputs
+ * Parameters: pointer to the SR, the current record
+ * Return: none
+ */
 void updateSR(status_reg_t* sr, record_t record)
 {
   if(sr == NULL){ return; } // used to do no-time increments (PC+2, etc)
@@ -166,7 +176,7 @@ void updateSR(status_reg_t* sr, record_t record)
   // Negative
   if(sign_f == 1) { Negative = 1; }
   // Zero
-  if(F_l == 0){ Zero = 1; }
+  if((F_l & 0xFFFF) == 0){ Zero = 1; }
   // Overflow? // this is the easiest way to calculate: -- => + and ++ => -
   // V = (!F & A AND B) | (F & !(A OR B));
   // using !x in order to make a boolean of the value
@@ -191,6 +201,11 @@ void updateSR(status_reg_t* sr, record_t record)
   return;
 }
 
+/* Function: decimalAdd
+ * Description: performs the "external circuitry" for DADD.
+ * Parameters: The parsed source and destination
+ * Return: the decimally added result, to be put on F
+ */
 uint32_t decimalAdd(uint16_t src, uint16_t dst)
 {
   // only unsigned addition

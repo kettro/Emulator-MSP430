@@ -32,6 +32,11 @@ extern void reg(Register_e reg_index, ReadWrite_e rw);
 
 // Definitions
 
+/* Function: execute
+ * Description: operates the 3 functions, based on the record's Area of Instruction
+ * Parameters: the current record
+ * Return: none
+ */
 void execute(record_t record)
 {
   // the AOE determines how a Function is executed
@@ -55,6 +60,11 @@ void execute(record_t record)
   }
 }
 
+/* Function: executeALU
+ * Description: operates the execution for instructions in the ALU AOE
+ * Parameters: the current record
+ * Return: none
+ */
 void executeALU(record_t record)
 {
   // Amounts to calling alu() on the record, with the SR
@@ -73,6 +83,11 @@ void executeALU(record_t record)
   }
 }
 
+/* Function: executeID
+ * Description: Executes instructions carries out by the ID (such as MOV)
+ * Parameters: the current record
+ * Return: none
+ */
 void executeID(record_t record)
 {
   if(!((record.op_type == TWO_opt) && (record.opcode == MOV_op))){
@@ -88,6 +103,11 @@ void executeID(record_t record)
   }
 }
 
+/* Function: executeSP
+ * Description: executes the fuinctions that utilize the Stack Pointer
+ * Parameters: the current record
+ * Return: none
+ */
 void executeSP(record_t record)
 {
   record_t add_rec = {

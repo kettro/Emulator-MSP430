@@ -1,0 +1,88 @@
+Debug Mode
+c
+Cache dump Mode
+Fetching @ 3000
+Querying Memory @3000: Miss
+Fetched 5090
+Fetching @ 3002
+Querying Memory @3002: Miss
+Fetched 2ffc
+Querying Memory @6000: Miss
+Fetching @ 3004
+Querying Memory @3004: Miss
+Fetched 2ffa
+Querying Memory @6000: Hit
+FINAL ACTION:
+Opcode = 5, Optype = 2
+SRC = 706 Address = 6000
+DST = 706 Address = 6000
+sr = 0; C=0, V=0, N=0
+Querying Memory @6000: Hit
+
+Fetching @ 3006
+Querying Memory @3006: Miss
+Fetched 50d0
+Fetching @ 3008
+Querying Memory @3008: Miss
+Fetched 2ff4
+Querying Memory @5FFE: Miss
+Fetching @ 300a
+Querying Memory @300A: Miss
+Fetched 2ffc
+Querying Memory @6008: Miss
+FINAL ACTION:
+Opcode = 5, Optype = 2
+SRC = 0 Address = 5ffe
+DST = e Address = 6008
+sr = 0; C=0, V=0, N=0
+Querying Memory @6008: Hit
+
+Fetching @ 300c
+Querying Memory @300C: Miss
+Fetched 5080
+Fetching @ 300e
+Querying Memory @300E: Miss
+Fetched 3001
+Querying Memory @6011: Miss
+FINAL ACTION:
+Opcode = 5, Optype = 2
+SRC = 300e Register = 0
+DST = 0 Address = 6011
+sr = 0; C=0, V=0, N=0
+Querying Memory @6011: Hit
+
+Fetching @ 3010
+Querying Memory @3010: Miss
+Writing through @6000
+Fetched 0
+FINAL ACTION:
+Opcode = 0, Optype = 0
+SRC = 3012 Register = 0
+DST = 3012 Register = 0
+All Done!
+-------------------------
+| 	Cache Dump	|
+-------------------------
+| Addr:	| Val:	| LRU:	|
+-------------------------
+| 6011	| 300E	| 1	|
+| 3010	| 0000	| 0	|
+| 3008	| 2FF4	| 3	|
+| 6008	| 000E	| 2	|
+-------------------------
+| 3002	| 2FFC	| 1	|
+| 300A	| 2FFC	| 0	|
+| 0	| 0000	| 3	|
+| 0	| 0000	| 2	|
+-------------------------
+| 3004	| 2FFA	| 1	|
+| 300C	| 5080	| 0	|
+| 0	| 0000	| 3	|
+| 0	| 0000	| 2	|
+-------------------------
+| 3006	| 50D0	| 2	|
+| 5FFE	| 0000	| 1	|
+| 300E	| 3001	| 0	|
+| 0	| 0000	| 3	|
+-------------------------
+-------------------------

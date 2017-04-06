@@ -31,6 +31,11 @@ extern void reg(Register_e reg_index, ReadWrite_e rw);
 
 // Definitions
 
+/* Function: parseOpcode
+ * Description: from a record, determines opcode, opcode type, and Area of Execution
+ * Parameters: Pointer to the current record
+ * Return: none; passed record is altered.
+ */
 void parseOpcode(record_t* record)
 {
   uint16_t type_mask = 0xE000; // >> 13
@@ -72,6 +77,12 @@ void parseOpcode(record_t* record)
   return;
 }
 
+/* Function: parseOperand
+ * Description: Retrieves the required values for operations,
+ *              based on addressing mode and op_type
+ * Parameters: pointer to the current record
+ * Return: none
+ */
 void parseOperand(record_t* record)
 {
   uint16_t jump_mask = 0x03FF; // bits 9->0
@@ -115,6 +126,11 @@ void parseOperand(record_t* record)
   return;
 }
 
+/* Function: calculateOffset
+ * Description: For Jumps, calculate the offset required
+ * Parameters: pointer to the current record, a pointer to the SR
+ * Return: none
+ */
 void calculateOffset(record_t* record, status_reg_t* sr)
 {
   uint16_t offset;
@@ -141,9 +157,13 @@ void calculateOffset(record_t* record, status_reg_t* sr)
     B_x = record->dst.value; // multiplying the dst by 2
     alu(add_rec, NULL); // TODO: maybe increase sysclock?
     offset = MDB_x;
-    if(offset & 0x0200){ // a negative number = has 10th bit set
-      offset |= 0xFE00; // sign extending the offset
-    } // else, do nothing
+    if(record->dst.value & 0x0200){
+      // A Negative number= has the 10th bit set
+      offset |= 0xFD00; // sign extending the offset
+    }
+    //if(offset & 0x0200){ // a negative number = has 10th bit set
+    //  offset |= 0xFE00; // sign extending the offset
+    // else, do nothing
     record->src.value = offset; // the offset is now double the passed value
   }else{
     record->src.value = 0x00; // if the condition isn't met, PC = PC + 0
@@ -157,6 +177,12 @@ void calculateOffset(record_t* record, status_reg_t* sr)
   return;
 }
 
+/* Function: calculateOperandAddress
+ * Description: For either the source or destination, calculates the address of the
+ *              operand.
+ * Parameters: pointer to the current record, designation as a source or destination
+ * Return: none
+ */
 void calculateOperandAddress(record_t* record, SrcDst_e target_type)
 {
   // variable declaration
@@ -206,7 +232,7 @@ void calculateOperandAddress(record_t* record, SrcDst_e target_type)
         B_x = 2 - record->bw; // for WORD( = 0), add 2, for BYTE( = 1) add 1
         alu(add_record, NULL); // increment the register by 1
         reg(target->reg, WRITE_rw); // store the result in the register
-        break;
+        //break;
       }
       MAB_x = target->address; // put the effective address on the MAB
       mem(READ_rw, WORD_bw); // get the data at that location
@@ -246,6 +272,11 @@ void calculateOperandAddress(record_t* record, SrcDst_e target_type)
   return;
 }
 
+/* Function: decode
+ * Description: Operates the decode phase; organizes and calls functions as required
+ * Parameters: none
+ * Return: the decoded and filled record.
+ */
 record_t decode(void)
 {
   record_t record;

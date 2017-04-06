@@ -1,0 +1,348 @@
+Debug Mode
+c
+Cache dump Mode
+Fetching @ 1000
+Querying Memory @1000: Miss
+Fetched 4038
+Fetching @ 1002
+Querying Memory @1002: Miss
+Fetched 6000
+FINAL ACTION:
+Opcode = 4, Optype = 2
+SRC = 6000 Address = 0
+DST = 0 Register = 8
+
+Fetching @ 1004
+Querying Memory @1004: Miss
+Fetched 4019
+Fetching @ 1006
+Querying Memory @1006: Miss
+Fetched 5016
+Querying Memory @601E: Miss
+FINAL ACTION:
+Opcode = 4, Optype = 2
+SRC = 10 Address = 601e
+DST = 0 Register = 9
+
+Fetching @ 1008
+Querying Memory @1008: Miss
+Fetched 10b8
+Querying Memory @6000: Miss
+FINAL ACTION:
+Opcode = 1, Optype = 0
+SRC = 1 Address = 6000
+DST = 1 Address = 6000
+sr = 0; C=0, V=0, N=0
+Querying Memory @6000: Hit
+
+Fetching @ 100a
+Querying Memory @100A: Miss
+Fetched 9839
+Querying Memory @6002: Miss
+FINAL ACTION:
+Opcode = 9, Optype = 2
+SRC = 2 Address = 6002
+DST = 10 Register = 9
+sr = 1; C=1, V=0, N=0
+
+Fetching @ 100c
+Querying Memory @100C: Miss
+Fetched 23fd
+Jump Taken? 1
+offset = fffa = -6
+FINAL ACTION:
+Opcode = 5, Optype = 2
+SRC = fffa Address = 0
+DST = 100e Register = 0
+sr = 1; C=1, V=0, N=0
+
+Fetching @ 1008
+Querying Memory @1008: Hit
+Fetched 10b8
+Querying Memory @6004: Miss
+FINAL ACTION:
+Opcode = 1, Optype = 0
+SRC = 3 Address = 6004
+DST = 3 Address = 6004
+sr = 0; C=0, V=0, N=0
+Querying Memory @6004: Hit
+
+Fetching @ 100a
+Querying Memory @100A: Hit
+Fetched 9839
+Querying Memory @6006: Miss
+FINAL ACTION:
+Opcode = 9, Optype = 2
+SRC = 4 Address = 6006
+DST = 10 Register = 9
+sr = 1; C=1, V=0, N=0
+
+Fetching @ 100c
+Querying Memory @100C: Hit
+Fetched 23fd
+Jump Taken? 1
+offset = fffa = -6
+FINAL ACTION:
+Opcode = 5, Optype = 2
+SRC = fffa Address = 0
+DST = 100e Register = 0
+sr = 1; C=1, V=0, N=0
+
+Fetching @ 1008
+Querying Memory @1008: Hit
+Fetched 10b8
+Querying Memory @6008: Miss
+FINAL ACTION:
+Opcode = 1, Optype = 0
+SRC = 5 Address = 6008
+DST = 5 Address = 6008
+sr = 0; C=0, V=0, N=0
+Querying Memory @6008: Hit
+
+Fetching @ 100a
+Querying Memory @100A: Hit
+Fetched 9839
+Querying Memory @600A: Miss
+FINAL ACTION:
+Opcode = 9, Optype = 2
+SRC = 6 Address = 600a
+DST = 10 Register = 9
+sr = 1; C=1, V=0, N=0
+
+Fetching @ 100c
+Querying Memory @100C: Hit
+Fetched 23fd
+Jump Taken? 1
+offset = fffa = -6
+FINAL ACTION:
+Opcode = 5, Optype = 2
+SRC = fffa Address = 0
+DST = 100e Register = 0
+sr = 1; C=1, V=0, N=0
+
+Fetching @ 1008
+Querying Memory @1008: Hit
+Fetched 10b8
+Querying Memory @600C: Miss
+FINAL ACTION:
+Opcode = 1, Optype = 0
+SRC = 7 Address = 600c
+DST = 7 Address = 600c
+sr = 0; C=0, V=0, N=0
+Querying Memory @600C: Hit
+
+Fetching @ 100a
+Querying Memory @100A: Hit
+Fetched 9839
+Querying Memory @600E: Miss
+FINAL ACTION:
+Opcode = 9, Optype = 2
+SRC = 8 Address = 600e
+DST = 10 Register = 9
+sr = 1; C=1, V=0, N=0
+
+Fetching @ 100c
+Querying Memory @100C: Hit
+Fetched 23fd
+Jump Taken? 1
+offset = fffa = -6
+FINAL ACTION:
+Opcode = 5, Optype = 2
+SRC = fffa Address = 0
+DST = 100e Register = 0
+sr = 1; C=1, V=0, N=0
+
+Fetching @ 1008
+Querying Memory @1008: Hit
+Fetched 10b8
+Querying Memory @6010: Miss
+FINAL ACTION:
+Opcode = 1, Optype = 0
+SRC = 9 Address = 6010
+DST = 9 Address = 6010
+sr = 0; C=0, V=0, N=0
+Querying Memory @6010: Hit
+
+Fetching @ 100a
+Querying Memory @100A: Hit
+Fetched 9839
+Querying Memory @6012: Miss
+FINAL ACTION:
+Opcode = 9, Optype = 2
+SRC = a Address = 6012
+DST = 10 Register = 9
+sr = 1; C=1, V=0, N=0
+
+Fetching @ 100c
+Querying Memory @100C: Hit
+Fetched 23fd
+Jump Taken? 1
+offset = fffa = -6
+FINAL ACTION:
+Opcode = 5, Optype = 2
+SRC = fffa Address = 0
+DST = 100e Register = 0
+sr = 1; C=1, V=0, N=0
+
+Fetching @ 1008
+Querying Memory @1008: Hit
+Fetched 10b8
+Querying Memory @6014: Miss
+FINAL ACTION:
+Opcode = 1, Optype = 0
+SRC = b Address = 6014
+DST = b Address = 6014
+sr = 0; C=0, V=0, N=0
+Querying Memory @6014: Hit
+
+Fetching @ 100a
+Querying Memory @100A: Hit
+Fetched 9839
+Querying Memory @6016: Miss
+FINAL ACTION:
+Opcode = 9, Optype = 2
+SRC = c Address = 6016
+DST = 10 Register = 9
+sr = 1; C=1, V=0, N=0
+
+Fetching @ 100c
+Querying Memory @100C: Hit
+Fetched 23fd
+Jump Taken? 1
+offset = fffa = -6
+FINAL ACTION:
+Opcode = 5, Optype = 2
+SRC = fffa Address = 0
+DST = 100e Register = 0
+sr = 1; C=1, V=0, N=0
+
+Fetching @ 1008
+Querying Memory @1008: Hit
+Fetched 10b8
+Querying Memory @6018: Miss
+FINAL ACTION:
+Opcode = 1, Optype = 0
+SRC = d Address = 6018
+DST = d Address = 6018
+sr = 0; C=0, V=0, N=0
+Querying Memory @6018: Hit
+
+Fetching @ 100a
+Querying Memory @100A: Hit
+Fetched 9839
+Querying Memory @601A: Miss
+FINAL ACTION:
+Opcode = 9, Optype = 2
+SRC = e Address = 601a
+DST = 10 Register = 9
+sr = 1; C=1, V=0, N=0
+
+Fetching @ 100c
+Querying Memory @100C: Hit
+Fetched 23fd
+Jump Taken? 1
+offset = fffa = -6
+FINAL ACTION:
+Opcode = 5, Optype = 2
+SRC = fffa Address = 0
+DST = 100e Register = 0
+sr = 1; C=1, V=0, N=0
+
+Fetching @ 1008
+Querying Memory @1008: Hit
+Fetched 10b8
+Querying Memory @601C: Miss
+FINAL ACTION:
+Opcode = 1, Optype = 0
+SRC = f Address = 601c
+DST = f Address = 601c
+sr = 0; C=0, V=0, N=0
+Querying Memory @601C: Hit
+
+Fetching @ 100a
+Querying Memory @100A: Hit
+Fetched 9839
+Querying Memory @601E: Hit
+FINAL ACTION:
+Opcode = 9, Optype = 2
+SRC = 10 Address = 601e
+DST = 10 Register = 9
+sr = 3; C=1, V=0, N=0
+
+Fetching @ 100c
+Querying Memory @100C: Hit
+Fetched 23fd
+Jump Taken? 0
+offset = 0 = +0
+FINAL ACTION:
+Opcode = 5, Optype = 2
+SRC = 0 Address = 0
+DST = 100e Register = 0
+sr = 0; C=0, V=0, N=0
+
+Fetching @ 100e
+Querying Memory @100E: Miss
+Fetched 403f
+Fetching @ 1010
+Querying Memory @1010: Miss
+Fetched 2000
+FINAL ACTION:
+Opcode = 4, Optype = 2
+SRC = 2000 Address = 0
+DST = 0 Register = 15
+
+Fetching @ 1012
+Querying Memory @1012: Miss
+Fetched 821f
+Fetching @ 1014
+Querying Memory @1014: Miss
+Fetched 6000
+Querying Memory @6000: Miss
+FINAL ACTION:
+Opcode = 8, Optype = 2
+SRC = 100 Address = 6000
+DST = 2000 Register = 15
+sr = 1; C=1, V=0, N=0
+
+Fetching @ 1016
+Querying Memory @1016: Miss
+Fetched 4f00
+FINAL ACTION:
+Opcode = 4, Optype = 2
+SRC = 1f00 Register = 15
+DST = 1018 Register = 0
+
+Fetching @ 1f00
+Querying Memory @1F00: Miss
+Fetched 0
+FINAL ACTION:
+Opcode = 0, Optype = 0
+SRC = 1f02 Register = 0
+DST = 1f02 Register = 0
+All Done!
+-------------------------
+| 	Cache Dump	|
+-------------------------
+| Addr:	| Val:	| LRU:	|
+-------------------------
+| 6000	| 0100	| 1	|
+| 1008	| 10B8	| 3	|
+| 1F00	| 0000	| 0	|
+| 1010	| 2000	| 2	|
+-------------------------
+| 6012	| 000A	| 3	|
+| 100A	| 9839	| 1	|
+| 601A	| 000E	| 2	|
+| 1012	| 821F	| 0	|
+-------------------------
+| 6014	| 0B00	| 3	|
+| 100C	| 23FD	| 1	|
+| 601C	| 0F00	| 2	|
+| 1014	| 6000	| 0	|
+-------------------------
+| 6016	| 000C	| 3	|
+| 601E	| 0010	| 2	|
+| 100E	| 403F	| 1	|
+| 1016	| 4F00	| 0	|
+-------------------------
+-------------------------

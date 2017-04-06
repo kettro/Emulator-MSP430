@@ -1,0 +1,209 @@
+Debug Mode
+r
+Regdump Mode
+Fetching @ 100
+Fetched 4032
+Fetching @ 102
+Fetched 0
+FINAL ACTION:
+Opcode = 4, Optype = 2
+SRC = 0 Address = 0
+DST = 0 Register = 2
+
+Fetching @ 104
+Fetched 4030
+Fetching @ 106
+Fetched 1000
+FINAL ACTION:
+Opcode = 4, Optype = 2
+SRC = 1000 Address = 0
+DST = 108 Register = 0
+
+Fetching @ 1000
+Fetched 4032
+Fetching @ 1002
+Fetched 1
+FINAL ACTION:
+Opcode = 4, Optype = 2
+SRC = 1 Address = 0
+DST = 0 Register = 2
+
+Fetching @ 1004
+Fetched 2bfe
+Jump Taken? 0
+offset = 0 = +0
+FINAL ACTION:
+Opcode = 5, Optype = 2
+SRC = 0 Address = 0
+DST = 1006 Register = 0
+sr = 0; C=0, V=0, N=0
+
+Fetching @ 1006
+Fetched 4030
+Fetching @ 1008
+Fetched 1100
+FINAL ACTION:
+Opcode = 4, Optype = 2
+SRC = 1100 Address = 0
+DST = 100a Register = 0
+
+Fetching @ 1100
+Fetched 4032
+Fetching @ 1102
+Fetched 2
+FINAL ACTION:
+Opcode = 4, Optype = 2
+SRC = 2 Address = 0
+DST = 0 Register = 2
+
+Fetching @ 1104
+Fetched 22f8
+Jump Taken? 0
+offset = 0 = +0
+FINAL ACTION:
+Opcode = 5, Optype = 2
+SRC = 0 Address = 0
+DST = 1106 Register = 0
+sr = 0; C=0, V=0, N=0
+
+Fetching @ 1106
+Fetched 4030
+Fetching @ 1108
+Fetched 1200
+FINAL ACTION:
+Opcode = 4, Optype = 2
+SRC = 1200 Address = 0
+DST = 110a Register = 0
+
+Fetching @ 1200
+Fetched 4032
+Fetching @ 1202
+Fetched 0
+FINAL ACTION:
+Opcode = 4, Optype = 2
+SRC = 0 Address = 0
+DST = 0 Register = 2
+
+Fetching @ 1204
+Fetched 31f8
+Jump Taken? 0
+offset = 0 = +0
+FINAL ACTION:
+Opcode = 5, Optype = 2
+SRC = 0 Address = 0
+DST = 1206 Register = 0
+sr = 0; C=0, V=0, N=0
+
+Fetching @ 1206
+Fetched 4030
+Fetching @ 1208
+Fetched 1300
+FINAL ACTION:
+Opcode = 4, Optype = 2
+SRC = 1300 Address = 0
+DST = 120a Register = 0
+
+Fetching @ 1300
+Fetched 4032
+Fetching @ 1302
+Fetched 104
+FINAL ACTION:
+Opcode = 4, Optype = 2
+SRC = 104 Address = 0
+DST = 0 Register = 2
+
+Fetching @ 1304
+Fetched 38f8
+Jump Taken? 0
+offset = 0 = +0
+FINAL ACTION:
+Opcode = 5, Optype = 2
+SRC = 0 Address = 0
+DST = 1306 Register = 0
+sr = 0; C=0, V=0, N=0
+
+Fetching @ 1306
+Fetched 4030
+Fetching @ 1308
+Fetched 1400
+FINAL ACTION:
+Opcode = 4, Optype = 2
+SRC = 1400 Address = 0
+DST = 130a Register = 0
+
+Fetching @ 1400
+Fetched 4032
+Fetching @ 1402
+Fetched 4
+FINAL ACTION:
+Opcode = 4, Optype = 2
+SRC = 4 Address = 0
+DST = 0 Register = 2
+
+Fetching @ 1404
+Fetched 37f8
+Jump Taken? 0
+offset = 0 = +0
+FINAL ACTION:
+Opcode = 5, Optype = 2
+SRC = 0 Address = 0
+DST = 1406 Register = 0
+sr = 0; C=0, V=0, N=0
+
+Fetching @ 1406
+Fetched 4030
+Fetching @ 1408
+Fetched 1500
+FINAL ACTION:
+Opcode = 4, Optype = 2
+SRC = 1500 Address = 0
+DST = 140a Register = 0
+
+Fetching @ 1500
+Fetched 4032
+Fetching @ 1502
+Fetched 100
+FINAL ACTION:
+Opcode = 4, Optype = 2
+SRC = 100 Address = 0
+DST = 0 Register = 2
+
+Fetching @ 1504
+Fetched 36f8
+Jump Taken? 0
+offset = 0 = +0
+FINAL ACTION:
+Opcode = 5, Optype = 2
+SRC = 0 Address = 0
+DST = 1506 Register = 0
+sr = 0; C=0, V=0, N=0
+
+Fetching @ 1506
+Fetched 0
+FINAL ACTION:
+Opcode = 0, Optype = 0
+SRC = 1508 Register = 0
+DST = 1508 Register = 0
+All Done!
+-----------------
+| Register Dump	|
+-----------------
+| Reg:	| Val:	|
+-----------------
+| 0	| 1508	|
+| 1	| ffbf	|
+| 2	| 0000	|
+| 3	| 0000	|
+| 4	| 0000	|
+| 5	| 0000	|
+| 6	| 0000	|
+| 7	| 0000	|
+| 8	| 0000	|
+| 9	| 0000	|
+| 10	| 0000	|
+| 11	| 0000	|
+| 12	| 0000	|
+| 13	| 0000	|
+| 14	| 0000	|
+| 15	| 0000	|
+-----------------

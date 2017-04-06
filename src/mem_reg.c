@@ -9,23 +9,26 @@
 #include "enums.h"
 #include "structures.h"
 // Defines and Macros
+#define BLOCKS  4
+#define SLOTS   4
 // Local Variables
 uint16_t memory[0x10000]; // 2^16 memory locations
 //uint16_t reg_file[16]; // 16 registers
 uint16_t reg_file[16]; // 16 Registers
-cache_t cache_line[8][4]; // 32 spot cache; 8 lines of 4
+cache_t cache_line[BLOCKS][SLOTS]; // 32 spot cache; 8 lines of 4
 
 // Local Function Prototypes
 void mem(ReadWrite_e rw, ByteWord_e bw);
 void reg(Register_e reg_index, ReadWrite_e rw);
 void fetch(void);
-void updateLRU(cache_t new_line, cache_t old_line);
+void lru(cache_t new_line, int target_lru);
 // External Variables
 extern uint16_t MDB_x;
 extern uint16_t MAB_x;
 extern uint16_t A_x;
 extern uint16_t B_x;
 extern int debug_flag;
+extern int cache_dump;
 // External Function Prototypes
 extern int alu(record_t record, status_reg_t* sr);
 
@@ -52,83 +55,110 @@ extern int alu(record_t record, status_reg_t* sr);
 //    }
 //  }
 //}
+
+
+/* Function: mem
+ * Description: Accesses the memory, as well as the cache
+ * Parameters: Read/Write, and Byte/Word designation
+ * Return: none
+ */
 void mem(ReadWrite_e rw, ByteWord_e bw)
 {
+  if(debug_flag && cache_dump){ printf("Querying Memory @%X: ", MAB_x); }
   int i;
   cache_t new_line = {
-    .w = MDB_x,
+    .w = 0,
     .address = MAB_x,
-    .lru = 0
+    .lru = 0,
+    .block = (MAB_x/2) % BLOCKS // in order to make the cache run on words, not bytes
   };
   cache_t found_line;
-  cache_t oldest_line = { .lru = 0 };
-  new_line.block = new_line.address % 8;
+  int desired_lru;
+  new_line.bl |= MDB_x & 0xFF;
+  if(bw == WORD_bw){ new_line.bh = ((MDB_x >> 8) & 0xFF); }
+  //cache_t oldest_line = { .lru = 0 };
+  //new_line.block = new_line.address % 8;
   if(rw == READ_rw){ MDB_x = 0x0000; }
-
-  for(i = 0; i < 4; i++){
-    found_line= cache_line[new_line.block][i];
+  // Search for a hit
+  for(i = 0; i < SLOTS; i++){
+    found_line = cache_line[new_line.block][i];
     if(found_line.address == new_line.address){
       // Hit
+      if(debug_flag & cache_dump){ printf("Hit\n"); }
       if(rw == READ_rw){
-        MDB_x = (bw == WORD_bw) ? found_line.w : found_line.bl;
+        new_line.w = (bw == WORD_bw) ? found_line.w : found_line.bl;
+        MDB_x = new_line.w;
       }else{
         new_line.db = 1;
       }
-      break;
-    }else{
-      // Miss
-      if(found_line.lru > oldest_line.lru){
-        oldest_line = found_line; // keeping track of the oldest line in the block;
-      }
+      desired_lru = found_line.lru;
+      lru(new_line, desired_lru);
+      return;
+    }
+  }
+  // Miss
+  if(debug_flag && cache_dump){ printf("Miss\n"); }
+  desired_lru = 3; // replace the eldest
+  // Need to find the correct record, and write through
+  for(i = 0; i < SLOTS; i++){
+    found_line = cache_line[new_line.block][i];
+    if(found_line.lru == desired_lru){
+      break; // Gottem
     }
   }
 
-  if(i == 4){
-    // No hit- looped all the way through
-    found_line = oldest_line;
-    if(found_line.db == 1){
-      // Need to write through
-      memory[found_line.address] = found_line.bl;
-      if(bw == WORD_bw){ 
-        memory[found_line.address + 1] = found_line.bh;
-      }
-    }
-    // Need to get the data of the new_line into the new_line
-    if(rw == READ_rw){
-      new_line.bl = memory[new_line.address];
-      if(bw == WORD_bw){
-        new_line.bh = memory[new_line.address + 1];
-        MDB_x = new_line.w;
-      }else{
-        MDB_x = new_line.bl;
-      }
-    }else{
-      // Write
-      // Not writing to the memory location, setting db so it does it for me, later
-      new_line.db = 1;
+  if(found_line.db == 1){
+    // Need to write through
+    if(debug_flag && cache_dump){ printf("Writing through @%X\n", found_line.address); }
+    memory[found_line.address] = found_line.bl;
+    if(bw == WORD_bw){
+      memory[found_line.address + 1] = found_line.bh;
     }
   }
-
-  updateLRU(new_line, found_line);
+  // Need to the get the data of the new_line into the new_line
+  if(rw == READ_rw){
+    new_line.bl = memory[new_line.address];
+    if(bw == WORD_bw){
+      new_line.bh = memory[new_line.address + 1];
+      MDB_x = new_line.w;
+    }else{
+      MDB_x = new_line.bl;
+    }
+  }else{
+    // write
+    // Not writing to the memory location here, setting the db, so it does it for me
+    new_line.db = 1;
+  }
+  lru(new_line, desired_lru);
   return;
 }
 
-void updateLRU(cache_t new_line, cache_t old_line)
+/* Function: lru
+ * Description: For the cache, determines the least recently used slot, and replaces it
+ * Parameters: the cache entry to be inserted, the lru of the item to be replaced
+ * Return: none
+ */
+void lru(cache_t new_line, int target_lru)
 {
-  int block = new_line.block;
   int i;
   cache_t* line;
-  for(i = 0; i < 4; i++){
-    line = &cache_line[block][i];
-    if(line->lru < old_line.lru){
+  for(i = 0; i < SLOTS; i++){
+    line = &cache_line[new_line.block][i];
+    if(line->lru == target_lru){
+      // Bingo
+      *line = new_line;
+      line->lru = 0;
+    }else if(line->lru < target_lru){
       line->lru++;
-    }else if(line->lru == old_line.lru){
-      // if it is the same age as the old block
-      *line = new_line; // Drop in the new_line, regardless if write or read- updated!
     }
   }
 }
 
+/* Function: reg
+ * Description: accesses the register file
+ * Parameters: Index to the register, Read/Write designation
+ * Return: none
+ */
 void reg(Register_e reg_index, ReadWrite_e rw)
 {
   uint16_t* reg = &reg_file[reg_index];
@@ -142,6 +172,11 @@ void reg(Register_e reg_index, ReadWrite_e rw)
   }
 }
 
+/* Function: fetch
+ * Description: Fetches an item from memory, and then increments the PC
+ * Parameters: none
+ * Return: none
+ */
 void fetch(void)
 {
   reg(PC, READ_rw); // put PC on the MDB

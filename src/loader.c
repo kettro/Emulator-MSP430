@@ -17,11 +17,14 @@ extern uint16_t memory[0x10000]; // doesn't use the mem fns
 
 // Definitions
 
-// returns: the start location, aka, first location in the program
+/* Function: loader
+ * Description: loads the data from the S19 record directly into memory
+ * Parameters: The Input file
+ * Return: the starting address of the program (The first address passed)
+ */
 uint16_t loader(FILE* input_file)
 {
   // input file is the .s19 record
-  //
   uint16_t checksum = 0;
   uint16_t start_address;
   uint16_t address;
