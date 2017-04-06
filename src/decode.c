@@ -87,7 +87,7 @@ void parseOperand(record_t* record)
     // dst is the PC
     record->dst.mr = REG_mr;
     printf("instr = %x\n", inst_d.w );
-   record->dst.value = inst_d.w & jump_mask; // op = bits 9->0
+    record->dst.value = inst_d.w & jump_mask; // op = bits 9->0
     reg(SR, READ_rw); // get the SR onto the MDB
     sr.w = MDB_x;
     if(debug_flag){ printf("operand value = %x\n", record->dst.value); }
@@ -130,9 +130,9 @@ void calculateOffset(record_t* record, status_reg_t* sr)
     ((sr->n ^ sr->v) == 1),
     (1)
   };
-  record_t add_rec = { 
-    .op_type = TWO_opt, 
-    .opcode = ADD_op, 
+  record_t add_rec = {
+    .op_type = TWO_opt,
+    .opcode = ADD_op,
     .bw = WORD_bw
   }; // dummy record for adding
   printf("Jump Taken? %x\n", sr_condition_table[record->opcode]);
@@ -168,8 +168,8 @@ void calculateOperandAddress(record_t* record, SrcDst_e target_type)
     .op_type = TWO_opt,
     .bw = WORD_bw
   };
-  if(target_type == SRC_sd){ 
-    asd = record->as; 
+  if(target_type == SRC_sd){
+    asd = record->as;
     target = &record->src;
   }else{
     asd = record->ad;
@@ -196,7 +196,7 @@ void calculateOperandAddress(record_t* record, SrcDst_e target_type)
       target->value = ConstantGeneratorAsReg[record->as][target->reg];
       break;
     case INDIRECT:
-    case INDIRECT_AA: 
+    case INDIRECT_AA:
       target->mr = REG_mr;
       reg(target->reg, READ_rw);
       target->address = MDB_x; // Address from the MDB = the register
@@ -251,13 +251,13 @@ record_t decode(void)
   record_t record;
   // fetch puts the value at mem[PC] on the MDB_x
   // mem[PC] should be the instruction, so fill the record
-  record.instruction = MDB_x; 
+  record.instruction = MDB_x;
   // with the instruction, parse the opcode, type and aoe
   parseOpcode(&record);
-  // with everything else, parse the addr modes, 
+  // with everything else, parse the addr modes,
   // and the values of the operands
   parseOperand(&record);
-  // return the value of the record, so that execute has a 
+  // return the value of the record, so that execute has a
   // record to work with
   if(debug_flag){
     printf("FINAL ACTION:\n");
@@ -265,13 +265,13 @@ record_t decode(void)
     printf("SRC = %x", record.src.value);
     if(record.src.mr == REG_mr){
       printf(" Register = %d\n", record.src.reg);
-    }else{ 
+    }else{
       printf(" Address = %x\n", record.src.address);
     }
     printf("DST = %x", record.dst.value);
     if(record.dst.mr == REG_mr){
       printf(" Register = %d\n", record.dst.reg);
-    }else{ 
+    }else{
       printf(" Address = %x\n", record.dst.address);
     }
   }
