@@ -69,4 +69,18 @@ typedef union _Data_{
   uint16_t w; // word
 }Data_t;
 
+typedef struct _CacheLine_{
+  union{
+    uint16_t w;
+    struct{
+      uint8_t bl;
+      uint8_t bh;
+    };
+  };
+  uint16_t address;
+  unsigned db: 1;
+  unsigned block: 3;
+  unsigned lru: 2;
+} cache_t;
+
 #endif
